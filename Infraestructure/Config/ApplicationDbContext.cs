@@ -19,16 +19,19 @@ public class ApplicationDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // User
+        modelBuilder.Entity<User>().ToTable("users");
+        modelBuilder.Entity<Pet>().ToTable("pets");
+        modelBuilder.Entity<Vaccine>().ToTable("vaccines");
+        modelBuilder.Entity<WeightRecord>().ToTable("weightrecords");
+
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(u => u.Id);
-            entity.HasIndex(u => u.Email).IsUnique(); // e-mail único
+            entity.HasIndex(u => u.Email).IsUnique();
             entity.Property(u => u.Name).HasMaxLength(100).IsRequired();
             entity.Property(u => u.Email).HasMaxLength(150).IsRequired();
         });
 
-        // Pet
         modelBuilder.Entity<Pet>(entity =>
         {
             entity.HasKey(p => p.Id);
@@ -42,7 +45,6 @@ public class ApplicationDbContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
-        // Vaccine
         modelBuilder.Entity<Vaccine>(entity =>
         {
             entity.HasKey(v => v.Id);
@@ -55,7 +57,6 @@ public class ApplicationDbContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
-        // WeightRecord
         modelBuilder.Entity<WeightRecord>(entity =>
         {
             entity.HasKey(w => w.Id);
