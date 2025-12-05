@@ -44,9 +44,9 @@ builder.Services.AddCors(options =>
             .Split(',', StringSplitOptions.RemoveEmptyEntries)
             .Select(origin => origin.Trim())
             .Where(origin => !string.IsNullOrWhiteSpace(origin))
-            .ToArray() 
+            .ToArray()
             ?? new[] { "http://localhost:3000", "http://localhost:5173" };
-        
+
         options.AddPolicy("AllowFrontend", policy =>
         {
             policy.WithOrigins(allowedOrigins)
@@ -154,11 +154,10 @@ var app = builder.Build();
 // ------------------------------------------------------------
 // 7. Pipeline
 // ------------------------------------------------------------
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 // CORS DEVE vir ANTES de UseHttpsRedirection e UseAuthentication
 app.UseCors("AllowFrontend");
