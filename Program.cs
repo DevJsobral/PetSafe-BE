@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using PetSafe.Infraestructure.Repositories;
 using System.Text;
+using System.Linq;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using PetSafe.Application.Interfaces;
@@ -39,7 +40,11 @@ builder.Services.AddCors(options =>
     {
         // Política restritiva para produção
         // Permite configurar origens via variável de ambiente
-        var allowedOrigins = builder.Configuration["Cors:AllowedOrigins"]?.Split(',') 
+        var allowedOrigins = builder.Configuration["Cors:AllowedOrigins"]?
+            .Split(',', StringSplitOptions.RemoveEmptyEntries)
+            .Select(origin => origin.Trim())
+            .Where(origin => !string.IsNullOrWhiteSpace(origin))
+            .ToArray() 
             ?? new[] { "http://localhost:3000", "http://localhost:5173" };
         
         options.AddPolicy("AllowFrontend", policy =>
