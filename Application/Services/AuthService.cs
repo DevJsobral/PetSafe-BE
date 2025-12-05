@@ -31,7 +31,8 @@ public class AuthService : IUserService
         {
             Name = request.Username,
             Email = request.Email,
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password)
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
+            EmergencyPhone = request.EmergencyPhone
         };
 
         await _userRepository.AddAsync(user);

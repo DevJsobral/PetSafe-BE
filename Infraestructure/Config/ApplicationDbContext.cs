@@ -30,6 +30,7 @@ public class ApplicationDbContext : DbContext
             entity.HasIndex(u => u.Email).IsUnique();
             entity.Property(u => u.Name).HasMaxLength(100).IsRequired();
             entity.Property(u => u.Email).HasMaxLength(150).IsRequired();
+            entity.Property(u => u.EmergencyPhone).HasMaxLength(20);
         });
 
         modelBuilder.Entity<Pet>(entity =>
